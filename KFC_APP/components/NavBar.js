@@ -128,6 +128,9 @@ export class NavBar extends React.Component {
                   ),
               }}
         />
+        {/* <Tab.Screen name= "Login" component={More}
+          options={{tabBarIconStyle: {display: 'none'}}}
+        />  */}
       </Tab.Navigator>
     );
   }
