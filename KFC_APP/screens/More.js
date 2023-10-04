@@ -1,9 +1,9 @@
-import {Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, Zocial } from "@expo/vector-icons";
 
-function More() {
+const More = ({ navigation }) => {
   const [iconNames, setIconNames] = useState(["down", "down", "down", "down"]);
   const lstTitle = [
     {
@@ -42,7 +42,8 @@ function More() {
       newIconNames.filter((item) => item === "up")[0]
     );
 
-    if (lastUpItemIndex >= 0 && lastUpItemIndex !== index) newIconNames[lastUpItemIndex] = "down";
+    if (lastUpItemIndex >= 0 && lastUpItemIndex !== index)
+      newIconNames[lastUpItemIndex] = "down";
     newIconNames[index] = newIconNames[index] === "down" ? "up" : "down";
 
     setIconNames(newIconNames);
@@ -51,25 +52,25 @@ function More() {
   return (
     <SafeAreaView>
       {/* header */}
-      <View className=" ml-5 mt-5 flex-initial min-h-fit">
+      <View className=" mx-5 flex-initial min-h-fit">
         <Text className="text-4xl font-semibold text-left">Bắt đầu</Text>
         <View className=" pt-4 flex-row gap-2">
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text className="text-xl font-medium text-left">Đăng nhập</Text>
           </TouchableOpacity>
           <Text className="text-xl font-medium text-left"> / </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
             <Text className="text-xl font-medium text-left">Đăng ký</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       {/* list introduce */}
-      <View className="ml-5 mr-5 pt-6 mb-1 gap-y-2">
+      <View className="mx-5 pt-6 mb-1 gap-y-2">
         {iconNames.map((iconName, index) => (
           <View key={index}>
             <TouchableOpacity
-              className="pb-2 border-b-2 border-zinc-300 border-solid flex-row justify-between"
+              className="pb-2 border-b-[1px] border-zinc-300 border-solid flex-row justify-between"
               onPress={() => toggleIcon(index)}
             >
               <Text className="text-xl font-bold">
@@ -83,7 +84,7 @@ function More() {
               />
             </TouchableOpacity>
             {iconName === "up" && (
-              <View className="pl-2 pt-3 pb-4 flex-col gap-y-2 border-b-2 border-zinc-300 border-solid">
+              <View className="pl-2 pt-3 pb-4 flex-col gap-y-2 border-b-[1px] border-zinc-300 border-solid">
                 {Object.values(lstTitle[index])[0].map((item, index) => (
                   <Text key={index} className="text-x">
                     {item}
@@ -97,12 +98,12 @@ function More() {
 
       {/* social */}
       <View className="bg-black h-2/5 items-center">
-        <Text className="text-2xl font-bold text-left pt-5 pb-5 text-gray-300">
+        <Text className="text-2xl font-bold text-left py-5 text-gray-300">
           Kết nối với KFC
         </Text>
         <View className="flex-row gap-5">
           <TouchableOpacity>
-            <View className="border-2 border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
+            <View className="border-[1px] border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
               <Zocial
                 name="facebook"
                 size={24}
@@ -112,27 +113,27 @@ function More() {
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
-            <View className="border-2 border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
+            <View className="border-[1px] border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
               <Zocial name="instagram" size={24} color="#fff" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
-            <View className="border-2 border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
+            <View className="border-[1px] border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
               <Zocial name="youtube" size={24} color="#fff" />
             </View>
           </TouchableOpacity>
           <TouchableOpacity>
-            <View className="border-2 border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
+            <View className="border-[1px] border-zinc-300 rounded-full w-14 h-14 items-center justify-center">
               <Zocial name="twitter" size={24} color="#fff" />
             </View>
           </TouchableOpacity>
         </View>
-        <Text className="text-xs font-normal text-center mt-16 text-gray-300 border-t-2 border-zinc-300 border-solid w-5/6 p-8">
+        <Text className="text-xs font-normal text-center mt-16 text-gray-300 border-t-[1px] border-zinc-300 border-solid w-5/6 p-8">
           Copy right 2023 KFC Viet Nam
         </Text>
       </View>
     </SafeAreaView>
   );
-}
+};
 
 export default More;
