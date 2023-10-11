@@ -43,6 +43,7 @@ const Login = ({ navigation }) => {
                 keyboardType="email-address"
                 placeholder="Nhập email của bạn"
                 selectionColor={"red"}
+                autoCapitalize="none"
               />
             </View>
             <Text className="text-xl font-bold text-left mt-5 mb-3">
@@ -53,6 +54,7 @@ const Login = ({ navigation }) => {
                 style={{ width: "100%", fontSize: 20, marginLeft: -16 }}
                 placeholder="Nhập mật khẩu của bạn"
                 secureTextEntry={isShowPassWord}
+                autoCapitalize="none"
               />
               <TouchableOpacity
                 onPress={() => {

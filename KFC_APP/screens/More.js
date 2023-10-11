@@ -86,7 +86,7 @@ const More = ({ navigation }) => {
             {iconName === "up" && (
               <View className="pl-2 pt-3 pb-4 flex-col gap-y-2 border-b-[1px] border-zinc-300 border-solid">
                 {Object.values(lstTitle[index])[0].map((item, index) => (
-                  <Text key={index} className="text-x">
+                  <Text key={index} className="text-[14px]">
                     {item}
                   </Text>
                 ))}
