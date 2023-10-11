@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Menu from "../screens/Menu";
-import Home from "../screens/Home";
+import FirstOrder from "../screens/home/FirstOrder";
 import Cart from "../screens/Cart";
 import First from "../screens/Fisrt";
 import {Text, Image, View } from "react-native";
@@ -23,8 +23,8 @@ export class NavBar extends React.Component {
         }}
       >
         <Tab.Screen
-          name="Home"
-          component={Home}
+          name="FirstOrder"
+          component={FirstOrder}
           options={{
             tabBarIcon: ({ focused }) => (
               <View
