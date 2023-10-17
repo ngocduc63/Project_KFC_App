@@ -6,13 +6,13 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
 const Home = ({ navigation }) => {
   const listImgCarousel = [
-    "https://static.kfcvietnam.com.vn/images/items/lg/happy_meal_social.jpg?v=4BoONg",
+    "https://scontent.fhan2-3.fna.fbcdn.net/v/t45.1600-4/380475154_23861500866390779_4393659096363231195_n.png?stp=cp0_dst-jpg_p526x296_q90_spS444&_nc_cat=109&ccb=1-7&_nc_sid=0fa913&_nc_ohc=ig5dClVPOqwAX9DZy2z&_nc_ht=scontent.fhan2-3.fna&_nc_e2o=s&oh=00_AfDgngJlYaZwDHTPw0nZ8W3GbFyYn_NIwshfn9pk1Fu6xw&oe=652CCCC7",
     "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/combo-dinner.jpg?v=3Qpl7g",
     "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/Combo1010.jpg?v=LDoDO3",
     "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/KFC50.jpg?v=3Qpl7g",
@@ -65,11 +65,39 @@ const Home = ({ navigation }) => {
     },
   ]);
 
-  //   setTimeout(() => {
-  //     if (indexCurrentCarousel + 1 > listImgCarousel.length - 1)
-  //       setIndexCurrentCarousel(0);
-  //     else setIndexCurrentCarousel(indexCurrentCarousel + 1);
-  //   }, 2500);
+  let [lstFoodLike, setLstFoodLike] = useState([
+    {
+      id: 1,
+      name: "Combo Nhóm 1",
+      description:
+        "3 Miếng Gà + 1 Burger Zinger/Burger Tôm/Burger Phi-lê Gà Quay + 2 Lon Pepsi",
+      price: 172000,
+      image: "https://static.kfcvietnam.com.vn/images/items/lg/D6.jpg?v=LRz97L",
+    },
+    {
+      id: 2,
+      name: "Combo Nhóm 2",
+      description:
+        "4 Miếng Gà  + 1 Khoai tây chiên lớn / 2 Thanh Bí Phô-mai + 2 Pepsi Lon",
+      price: 191000,
+      image:
+        "https://static.kfcvietnam.com.vn/images/items/lg/D7-new.jpg?v=LRz97L",
+    },
+    {
+      id: 3,
+      name: "Combo Nhóm 3",
+      price: 228000,
+      description:
+        "5 Miếng Gà + 1 Popcorn (Vừa) / 4 Gà Miếng Nuggets+ 2 Pepsi Lon",
+      image:
+        "https://static.kfcvietnam.com.vn/images/items/lg/D8-new.jpg?v=LRz97L",
+    },
+  ]);
+  // useEffect( ()=>setTimeout(() => {
+  //   if (indexCurrentCarousel + 1 > listImgCarousel.length - 1)
+  //     setIndexCurrentCarousel(0);
+  //   else setIndexCurrentCarousel(indexCurrentCarousel + 1);
+  // }, 2500) ,[]);
 
   return (
     <SafeAreaView>
@@ -88,7 +116,7 @@ const Home = ({ navigation }) => {
           <MaterialIcons name="account-circle" size={50} color="black" />
         </TouchableOpacity>
       </View>
-      <ScrollView className="mb-[150px]">
+      <ScrollView className="mb-[150px] ">
         {/*Header*/}
         <View className="h-36 bg-gray-800 items-center justify-center pb-5">
           <Text className="text-[16px] text-slate-50 font-semibold pb-5">
@@ -149,19 +177,19 @@ const Home = ({ navigation }) => {
             <Text className="text-[22px] font-bold"> DANH MỤC MÓN ĂN</Text>
             <View className="w-[40%] h-[2px] bg-gray-700"></View>
           </View>
-          <View className="flex-row flex-wrap justify-between gap-y-2 pb-16">
+          <View className="flex-row flex-wrap justify-between gap-y-2">
             {lstItemFood.map((item, index) => (
-              <View
+              <TouchableOpacity
                 key={index}
-                className="h-[200px] w-[49%] relative pb-10 rounded-md"
+                className="h-[200px] w-[49%] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md"
               >
                 <View>
                   <Image
                     source={{ uri: item.image }}
-                    style={{ width: "99%", height: "99%" }}
+                    style={{ width: "99%", height: "99%", borderRadius: 4 }}
                   />
                 </View>
-                <TouchableOpacity className="w-full absolute bottom-3 flex-row justify-start items-center gap-x-1">
+                <View className="pl-[1px] w-full absolute bottom-3 flex-row justify-start items-center">
                   <Text className="text-[14px] font-bold">{item.name}</Text>
                   <Entypo
                     name="chevron-right"
@@ -169,7 +197,49 @@ const Home = ({ navigation }) => {
                     color="black"
                     style={{ paddingTop: 2 }}
                   />
-                </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {/* list user like */}
+        <View className="px-2 flex-row flex-wrap justify-between gap-y-2 mt-5">
+          <View className="h-20 gap-x-2 w-100% flex-row items-center">
+            <View className="">
+              <Image
+                source={require("../../assets/logo_human.png")}
+                style={{ width: 80, height: "100%" }}
+              />
+            </View>
+            <Text className="text-[30px] font-bold w-[75%]">
+              CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
+            </Text>
+          </View>
+          <View className="flex-row justify-between gap-x-4 pb-16 ">
+            {lstFoodLike.map((item, index) => (
+              <View
+                key={index}
+                className="h-[400px] w-[300px] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md"
+              >
+                <View>
+                  <Image
+                    source={{ uri: item.image }}
+                    style={{ width: "100%", height: "80%", borderRadius: 4 }}
+                  />
+                </View>
+                <View className="px-4 w-full absolute bottom-[14px] items-center">
+                  <View className="flex-row justify-between items-center w-full pb-2">
+                    <Text className="text-[18px] font-bold">{item.name}</Text>
+                    <Text className="text-[26px] font-bold">{item.price}</Text>
+                  </View>
+                  <Text className="font-light text-[14px]">
+                    {item.description}
+                  </Text>
+                  <TouchableOpacity className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full" disabled="true">
+                    <Text className="text-[18px] text-white">Thêm</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             ))}
           </View>
