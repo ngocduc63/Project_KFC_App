@@ -5,8 +5,9 @@ import {
   TouchableHighlight,
   Image,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
@@ -93,6 +94,25 @@ const Home = ({ navigation }) => {
         "https://static.kfcvietnam.com.vn/images/items/lg/D8-new.jpg?v=LRz97L",
     },
   ]);
+
+  const flatListRef = useRef(null);
+  const [isEndReached, setIsEndReached] = useState(false);
+
+  const loadMoreData = () => {
+    // Append the list to itself to simulate adding more data
+    setLstFoodLike([...lstFoodLike, ...lstFoodLike]);
+    setIsEndReached(false);
+  };
+
+  const handleEndReached = () => {
+    // if (lstFoodLike.length > 9) {
+    //   setLstFoodLike((prevList) => prevList.slice(5));
+    // }
+    if (!isEndReached) {
+      setIsEndReached(true);
+      loadMoreData();
+    }
+  };
   // useEffect( ()=>setTimeout(() => {
   //   if (indexCurrentCarousel + 1 > listImgCarousel.length - 1)
   //     setIndexCurrentCarousel(0);
@@ -216,32 +236,83 @@ const Home = ({ navigation }) => {
               CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
             </Text>
           </View>
-          <View className="flex-row justify-between gap-x-4 pb-16 ">
-            {lstFoodLike.map((item, index) => (
-              <View
-                key={index}
-                className="h-[400px] w-[300px] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md"
-              >
-                <View>
-                  <Image
-                    source={{ uri: item.image }}
-                    style={{ width: "100%", height: "80%", borderRadius: 4 }}
-                  />
-                </View>
-                <View className="px-4 w-full absolute bottom-[14px] items-center">
-                  <View className="flex-row justify-between items-center w-full pb-2">
-                    <Text className="text-[18px] font-bold">{item.name}</Text>
-                    <Text className="text-[26px] font-bold">{item.price}</Text>
+          {/* <View className="">
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            >
+              {lstFoodLike.map((item, index) => (
+                <View
+                  key={index}
+                  className="h-[400px] w-[300px] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md mr-5"
+                >
+                  <View>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={{ width: "100%", height: "80%", borderRadius: 4 }}
+                    />
                   </View>
-                  <Text className="font-light text-[14px]">
-                    {item.description}
-                  </Text>
-                  <TouchableOpacity className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full" disabled="true">
-                    <Text className="text-[18px] text-white">Thêm</Text>
-                  </TouchableOpacity>
+                  <View className="px-4 w-full absolute bottom-[14px] items-center">
+                    <View className="flex-row justify-between items-center w-full pb-2">
+                      <Text className="text-[18px] font-bold">{item.name}</Text>
+                      <Text className="text-[26px] font-bold">
+                        {item.price}
+                      </Text>
+                    </View>
+                    <Text className="font-light text-[14px]">
+                      {item.description}
+                    </Text>
+                    <TouchableOpacity
+                      className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full"
+                      disabled={true}
+                    >
+                      <Text className="text-[18px] text-white">Thêm</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
+            </ScrollView>
+          </View> */}
+          <View>
+            <FlatList
+              ref={flatListRef}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              onEndReached={handleEndReached}
+              onEndReachedThreshold={0.8}
+              data={lstFoodLike}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <View
+                  key={index}
+                  className="h-[400px] w-[300px] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md mr-5"
+                >
+                  <View>
+                    <Image
+                      source={{ uri: item.image }}
+                      style={{ width: "100%", height: "80%", borderRadius: 4 }}
+                    />
+                  </View>
+                  <View className="px-4 w-full absolute bottom-[14px] items-center">
+                    <View className="flex-row justify-between items-center w-full pb-2">
+                      <Text className="text-[18px] font-bold">{item.name}</Text>
+                      <Text className="text-[26px] font-bold">
+                        {item.price}
+                      </Text>
+                    </View>
+                    <Text className="font-light text-[14px]">
+                      {item.description}
+                    </Text>
+                    <TouchableOpacity
+                      className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full"
+                      disabled={true}
+                    >
+                      <Text className="text-[18px] text-white">Thêm</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            />
           </View>
         </View>
       </ScrollView>
