@@ -202,6 +202,12 @@ const Home = ({ navigation }) => {
               <TouchableOpacity
                 key={index}
                 className="h-[200px] w-[49%] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md"
+                onPress={() => {
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Menu', params: { index: index, data: "ok" } }]
+                  });
+                }}
               >
                 <View>
                   <Image
@@ -236,43 +242,6 @@ const Home = ({ navigation }) => {
               CÓ THỂ BẠN SẼ THÍCH MÓN NÀY
             </Text>
           </View>
-          {/* <View className="">
-            <ScrollView
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-            >
-              {lstFoodLike.map((item, index) => (
-                <View
-                  key={index}
-                  className="h-[400px] w-[300px] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md mr-5"
-                >
-                  <View>
-                    <Image
-                      source={{ uri: item.image }}
-                      style={{ width: "100%", height: "80%", borderRadius: 4 }}
-                    />
-                  </View>
-                  <View className="px-4 w-full absolute bottom-[14px] items-center">
-                    <View className="flex-row justify-between items-center w-full pb-2">
-                      <Text className="text-[18px] font-bold">{item.name}</Text>
-                      <Text className="text-[26px] font-bold">
-                        {item.price}
-                      </Text>
-                    </View>
-                    <Text className="font-light text-[14px]">
-                      {item.description}
-                    </Text>
-                    <TouchableOpacity
-                      className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full"
-                      disabled={true}
-                    >
-                      <Text className="text-[18px] text-white">Thêm</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              ))}
-            </ScrollView>
-          </View> */}
           <View>
             <FlatList
               ref={flatListRef}
