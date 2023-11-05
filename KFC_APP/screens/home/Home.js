@@ -132,7 +132,7 @@ const Home = ({ navigation }) => {
             style={{ width: 130, height: "50%" }}
           />
         </TouchableHighlight>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
           <MaterialIcons name="account-circle" size={50} color="black" />
         </TouchableOpacity>
       </View>
@@ -205,7 +205,9 @@ const Home = ({ navigation }) => {
                 onPress={() => {
                   navigation.reset({
                     index: 0,
-                    routes: [{ name: 'Menu', params: { index: index, data: "ok" } }]
+                    routes: [
+                      { name: "Menu", params: { index: index, data: "ok" } },
+                    ],
                   });
                 }}
               >

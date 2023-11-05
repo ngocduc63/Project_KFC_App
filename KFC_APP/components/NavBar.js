@@ -2,7 +2,7 @@ import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Menu from "../screens/menu/Menu";
 import FirstOrder from "../screens/home/FirstOrder";
-import Cart from "../screens/Cart";
+import Cart from "../screens/cart/Cart";
 import First from "../screens/Fisrt";
 import {Text, Image, View } from "react-native";
 
@@ -18,7 +18,8 @@ export class NavBar extends React.Component {
             position: "absolute",
             elevation: 0,
             backgroundColor: "#ffffff",
-            height: 60,
+            height: 70,
+            paddingBottom: 10
           },
         }}
       >
