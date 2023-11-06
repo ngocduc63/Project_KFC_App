@@ -7,11 +7,30 @@ import {
   useWindowDimensions,
   TextInput,
   ScrollView,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
+const YourComponent = () => {
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, [])};
 
 const FirstRoute = ({ navigation }) => (
   <View className="">
@@ -187,8 +206,16 @@ const ThreeRoute = ({ navigation }) => (
 // const renderScene =
 
 const Profile = ({ navigation }) => {
+  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardVisible(false);
+    });
+  });
   const layout = useWindowDimensions();
-  const [isHideLogout, SetIsHidenLogout] = useState(false);
   const [index, setIndex] = React.useState(0);
   const [routes] = useState([
     { key: "first", title: "Đơn hàng đã mua" },
@@ -215,7 +242,7 @@ const Profile = ({ navigation }) => {
           </TouchableOpacity>
         </View>
         {/*Content logout*/}
-        {!isHideLogout && (
+        {!isKeyboardVisible && (
           <View className="h-[200px] bg-black flex-row items-center">
             <View className="h-28 w-28">
               <Image
