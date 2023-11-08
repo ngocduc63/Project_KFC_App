@@ -52,9 +52,9 @@ const ViewMenu = ({ navigation }) => {
           image:
             "https://static.kfcvietnam.com.vn/images/items/lg/1-Cajun.jpg?v=LK8no4",
           newPrice: 40000,
-          //price: 97.000,
+          price: 97000,
           description: "1 Gà Que Kem Xốt Cajun",
-          //timeSell: "*Chỉ áp dụng từ 17:00 - 20:00",
+          timeSell: "*Chỉ áp dụng từ 17:00 - 20:00",
         },
         {
           id: 2,

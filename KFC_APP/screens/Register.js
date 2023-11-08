@@ -157,6 +157,7 @@ const Register = ({ navigation }) => {
             </TouchableHighlight>
           </View>
         </View>
+        <View className="h-20 w-full"></View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -10,7 +10,9 @@ import {
 import React, { useState, useEffect, useRef } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
+import * as Location from "expo-location";
 
+//https://api.geoapify.com/v1/geocode/reverse?lat=21.039005&lon=105.832113&apiKey=6e806f79046440a0897e1b732fcaaeb5
 const Home = ({ navigation }) => {
   const listImgCarousel = [
     "https://scontent.fhan2-3.fna.fbcdn.net/v/t45.1600-4/380475154_23861500866390779_4393659096363231195_n.png?stp=cp0_dst-jpg_p526x296_q90_spS444&_nc_cat=109&ccb=1-7&_nc_sid=0fa913&_nc_ohc=ig5dClVPOqwAX9DZy2z&_nc_ht=scontent.fhan2-3.fna&_nc_e2o=s&oh=00_AfDgngJlYaZwDHTPw0nZ8W3GbFyYn_NIwshfn9pk1Fu6xw&oe=652CCCC7",
@@ -19,6 +21,55 @@ const Home = ({ navigation }) => {
     "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/KFC50.jpg?v=3Qpl7g",
     "https://scontent.fhan19-1.fna.fbcdn.net/v/t45.1600-4/380725736_23859076183490779_4895159868564330008_n.png?stp=cp0_dst-jpg_p526x296_q90_spS444&_nc_cat=111&ccb=1-7&_nc_sid=0fa913&_nc_ohc=pkJvAYwWI8oAX8y_dw5&_nc_ht=scontent.fhan19-1.fna&_nc_e2o=s&oh=00_AfBlysrxqxOU7DSp_kA0Mv2VKstvCjfBaSMI1k8cCoBrOQ&oe=652CD7A2",
   ];
+
+  let [location, setLocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(0);
+  const [addressData, setAddressData] = useState(true);
+
+  const getLocation = async () => {
+    setIsLoading(1);
+
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      console.log("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
+    console.log(location);
+  };
+
+  useEffect(() => {
+    // You can run any code you want here that should be triggered when the button is clicked.
+    console.log("Find location");
+    const fetchData = async () => {
+      try {
+        const latitude = location.coords.latitude;
+        const longitude = location.coords.longitude;
+        const apiKey = "6e806f79046440a0897e1b732fcaaeb5";
+
+        const response = await fetch(
+          `https://api.geoapify.com/v1/geocode/reverse?lat=${latitude}&lon=${longitude}&apiKey=${apiKey}`
+        );
+
+        if (response) {
+          const data = await response.json();
+          let dataAdd = data.features[0].properties.formatted;
+          const parts = dataAdd.split(",");
+          const cleanedAddress = parts.slice(0, -2).join(",");
+          setAddressData(cleanedAddress);
+          setIsLoading(2);
+        } else {
+          console.error("Failed to fetch data from the API");
+        }
+      } catch (error) {
+        console.error("Error while fetching data:", error);
+      }
+    };
+
+    if (location) fetchData();
+  }, [location]);
 
   let [indexCurrentCarousel, setIndexCurrentCarousel] = useState(0);
   let [lstItemFood, setLstItemFood] = useState([
@@ -138,27 +189,56 @@ const Home = ({ navigation }) => {
       </View>
       <ScrollView className="mb-[150px] ">
         {/*Header*/}
-        <View className="h-36 bg-gray-800 items-center justify-center pb-5">
-          <Text className="text-[16px] text-slate-50 font-semibold pb-5">
-            Đặt ngay{"  "}
-            <Image
-              source={require("../../assets/delivery.png")}
-              style={{ width: 50, height: 50 }}
-            />{" "}
-            Giao hàng{" "}
-            <Image
-              source={require("../../assets/bag_take_away.png")}
-              style={{ width: 50, height: 50 }}
-            />{" "}
-            Hoặc mang đi
-          </Text>
-          <TouchableOpacity className="bg-red-700 justify-center items-center h-[50px] px-20 rounded-full">
-            <Text className="text-[16px] text-slate-50 font-semibold">
-              {" "}
-              Bắt đầu đặt hàng
+        {location === null && (
+          <View className="h-36 bg-gray-800 items-center justify-center pb-5">
+            <Text className="text-[16px] text-slate-50 font-semibold pb-5">
+              Đặt ngay{"  "}
+              <Image
+                source={require("../../assets/delivery.png")}
+                style={{ width: 50, height: 50 }}
+              />{" "}
+              Giao hàng{" "}
+              <Image
+                source={require("../../assets/bag_take_away.png")}
+                style={{ width: 50, height: 50 }}
+              />{" "}
+              Hoặc mang đi
             </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              className="bg-red-700 justify-center items-center h-[50px] px-20 rounded-full"
+              onPress={getLocation}
+              disabled={isLoading !== 0}
+            >
+              {isLoading === 0 && (<Text className="text-[16px] text-slate-50 font-semibold">
+                {" "}
+                Bắt đầu đặt hàng
+              </Text>)}
+              {isLoading !== 0 && (<Text className="text-[16px] text-slate-50 font-semibold">
+                {" "}
+                Đang định vị...
+              </Text>)}
+            </TouchableOpacity>
+          </View>
+        )}
+        {location && (
+          <View className="h-36 bg-gray-800 items-center justify-around pb-5">
+            <Text className="text-white text-[16px] font-semibold px-5">Vị trí của bạn: {addressData}</Text>
+            <TouchableOpacity
+              className="bg-red-700 justify-center items-center h-[50px] px-20 rounded-full"
+              onPress={getLocation}
+              disabled={isLoading === 1}
+            >
+              {isLoading === 2 && (<Text className="text-[16px] text-slate-50 font-semibold">
+                {" "}
+                Thay đổi vị trí
+              </Text>)}
+              {isLoading === 1 && (<Text className="text-[16px] text-slate-50 font-semibold">
+                {" "}
+                Đang định vị...
+              </Text>)}
+            </TouchableOpacity>
+          </View>
+        )}
         {/* Carousel */}
         <View>
           <View className="relative h-[300px]">

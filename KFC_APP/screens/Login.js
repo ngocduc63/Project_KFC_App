@@ -111,6 +111,7 @@ const Login = ({ navigation }) => {
             </Text>
           </TouchableHighlight>
         </View>
+        <View className="h-20 w-full"></View>
       </ScrollView>
     </SafeAreaView>
   );
