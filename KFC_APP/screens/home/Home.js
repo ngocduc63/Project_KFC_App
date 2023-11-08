@@ -40,6 +40,7 @@ const Home = ({ navigation }) => {
     console.log(location);
   };
 
+  // find address from location
   useEffect(() => {
     // You can run any code you want here that should be triggered when the button is clicked.
     console.log("Find location");
@@ -209,33 +210,43 @@ const Home = ({ navigation }) => {
               onPress={getLocation}
               disabled={isLoading !== 0}
             >
-              {isLoading === 0 && (<Text className="text-[16px] text-slate-50 font-semibold">
-                {" "}
-                Bắt đầu đặt hàng
-              </Text>)}
-              {isLoading !== 0 && (<Text className="text-[16px] text-slate-50 font-semibold">
-                {" "}
-                Đang định vị...
-              </Text>)}
+              {isLoading === 0 && (
+                <Text className="text-[16px] text-slate-50 font-semibold">
+                  {" "}
+                  Bắt đầu đặt hàng
+                </Text>
+              )}
+              {isLoading !== 0 && (
+                <Text className="text-[16px] text-slate-50 font-semibold">
+                  {" "}
+                  Đang định vị...
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
         {location && (
           <View className="h-36 bg-gray-800 items-center justify-around pb-5">
-            <Text className="text-white text-[16px] font-semibold px-5">Vị trí của bạn: {addressData}</Text>
+            <Text className="text-white text-[16px] font-semibold px-5">
+              Vị trí của bạn: {addressData}
+            </Text>
             <TouchableOpacity
               className="bg-red-700 justify-center items-center h-[50px] px-20 rounded-full"
               onPress={getLocation}
               disabled={isLoading === 1}
             >
-              {isLoading === 2 && (<Text className="text-[16px] text-slate-50 font-semibold">
-                {" "}
-                Thay đổi vị trí
-              </Text>)}
-              {isLoading === 1 && (<Text className="text-[16px] text-slate-50 font-semibold">
-                {" "}
-                Đang định vị...
-              </Text>)}
+              {isLoading === 2 && (
+                <Text className="text-[16px] text-slate-50 font-semibold">
+                  {" "}
+                  Thay đổi vị trí
+                </Text>
+              )}
+              {isLoading === 1 && (
+                <Text className="text-[16px] text-slate-50 font-semibold">
+                  {" "}
+                  Đang định vị...
+                </Text>
+              )}
             </TouchableOpacity>
           </View>
         )}
@@ -281,7 +292,7 @@ const Home = ({ navigation }) => {
             {lstItemFood.map((item, index) => (
               <TouchableOpacity
                 key={index}
-                className="h-[200px] w-[49%] pb-10 shadow-[-1px_4px_5px_1px_rgba(0,0,0,1)] bg-white rounded-md"
+                className="h-[200px] w-[49%] pb-10 bg-white rounded-md"
                 onPress={() => {
                   navigation.reset({
                     index: 0,
@@ -294,7 +305,12 @@ const Home = ({ navigation }) => {
                 <View>
                   <Image
                     source={{ uri: item.image }}
-                    style={{ width: "99%", height: "99%", borderRadius: 4 }}
+                    style={{
+                      width: "99%",
+                      height: "99%",
+                      borderTopLeftRadius: 4,
+                      borderTopRightRadius: 4,
+                    }}
                   />
                 </View>
                 <View className="pl-[1px] w-full absolute bottom-3 flex-row justify-start items-center">
@@ -366,6 +382,7 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
+        <View className="h-5 w-full"></View>
       </ScrollView>
     </SafeAreaView>
   );
