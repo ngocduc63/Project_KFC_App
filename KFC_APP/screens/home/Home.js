@@ -188,7 +188,7 @@ const Home = ({ navigation }) => {
           <MaterialIcons name="account-circle" size={50} color="black" />
         </TouchableOpacity>
       </View>
-      <ScrollView className="mb-[150px] ">
+      <ScrollView className="">
         {/*Header*/}
         {location === null && (
           <View className="h-36 bg-gray-800 items-center justify-center pb-5">
@@ -382,7 +382,7 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
-        <View className="h-5 w-full"></View>
+        <View className="h-32 w-full"></View>
       </ScrollView>
     </SafeAreaView>
   );
