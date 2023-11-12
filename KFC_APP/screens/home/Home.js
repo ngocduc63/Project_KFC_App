@@ -15,11 +15,11 @@ import * as Location from "expo-location";
 //https://api.geoapify.com/v1/geocode/reverse?lat=21.039005&lon=105.832113&apiKey=6e806f79046440a0897e1b732fcaaeb5
 const Home = ({ navigation }) => {
   const listImgCarousel = [
-    "https://scontent.fhan2-3.fna.fbcdn.net/v/t45.1600-4/380475154_23861500866390779_4393659096363231195_n.png?stp=cp0_dst-jpg_p526x296_q90_spS444&_nc_cat=109&ccb=1-7&_nc_sid=0fa913&_nc_ohc=ig5dClVPOqwAX9DZy2z&_nc_ht=scontent.fhan2-3.fna&_nc_e2o=s&oh=00_AfDgngJlYaZwDHTPw0nZ8W3GbFyYn_NIwshfn9pk1Fu6xw&oe=652CCCC7",
-    "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/combo-dinner.jpg?v=3Qpl7g",
-    "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/Combo1010.jpg?v=LDoDO3",
-    "https://static.kfcvietnam.com.vn/images/content/home/carousel/lg/KFC50.jpg?v=3Qpl7g",
-    "https://scontent.fhan19-1.fna.fbcdn.net/v/t45.1600-4/380725736_23859076183490779_4895159868564330008_n.png?stp=cp0_dst-jpg_p526x296_q90_spS444&_nc_cat=111&ccb=1-7&_nc_sid=0fa913&_nc_ohc=pkJvAYwWI8oAX8y_dw5&_nc_ht=scontent.fhan19-1.fna&_nc_e2o=s&oh=00_AfBlysrxqxOU7DSp_kA0Mv2VKstvCjfBaSMI1k8cCoBrOQ&oe=652CD7A2",
+    require("../../assets/banner/banner_1.png"),
+    require("../../assets/banner/banner_2.jpg"),
+    require("../../assets/banner/banner_3.jpg"),
+    require("../../assets/banner/banner_4.jpg"),
+    require("../../assets/banner/banner_5.jpg"),
   ];
 
   let [location, setLocation] = useState(null);
@@ -169,7 +169,7 @@ const Home = ({ navigation }) => {
   //   if (indexCurrentCarousel + 1 > listImgCarousel.length - 1)
   //     setIndexCurrentCarousel(0);
   //   else setIndexCurrentCarousel(indexCurrentCarousel + 1);
-  // }, 2500) ,[]);
+  // }, 1500) ,[]);
 
   return (
     <SafeAreaView>
@@ -250,14 +250,15 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         )}
-        {/* Carousel */}
+        {/* Banner */}
         <View>
           <View className="relative h-[300px]">
             <View className="absolute top-0 left-0 w-full b-0">
               <Image
-                source={{ uri: listImgCarousel[indexCurrentCarousel] }}
+                source={listImgCarousel[indexCurrentCarousel] }
                 style={{ width: "100%", height: 300 }}
-              ></Image>
+                resizeMode="contain"
+              />
             </View>
             <TouchableOpacity
               className="absolute top-[120px] left-0 bg-slate-900/80 w-12 h-12 items-center justify-center rounded-xl"
@@ -382,7 +383,7 @@ const Home = ({ navigation }) => {
             />
           </View>
         </View>
-        <View className="h-32 w-full"></View>
+        <View className="h-40 w-full"></View>
       </ScrollView>
     </SafeAreaView>
   );
