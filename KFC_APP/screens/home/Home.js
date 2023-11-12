@@ -165,11 +165,17 @@ const Home = ({ navigation }) => {
       loadMoreData();
     }
   };
-  // useEffect( ()=>setTimeout(() => {
-  //   if (indexCurrentCarousel + 1 > listImgCarousel.length - 1)
-  //     setIndexCurrentCarousel(0);
-  //   else setIndexCurrentCarousel(indexCurrentCarousel + 1);
-  // }, 1500) ,[]);
+
+  // slice banner
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (indexCurrentCarousel + 1 > listImgCarousel.length - 1)
+        setIndexCurrentCarousel(0);
+      else setIndexCurrentCarousel(indexCurrentCarousel + 1);
+    }, 3500);
+
+    return () => clearTimeout(timer);
+  }, [indexCurrentCarousel]);
 
   return (
     <SafeAreaView>
