@@ -261,7 +261,7 @@ const Home = ({ navigation }) => {
           <View className="relative h-[300px]">
             <View className="absolute top-0 left-0 w-full b-0">
               <Image
-                source={listImgCarousel[indexCurrentCarousel] }
+                source={listImgCarousel[indexCurrentCarousel]}
                 style={{ width: "100%", height: 300 }}
                 resizeMode="contain"
               />

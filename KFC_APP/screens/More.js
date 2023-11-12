@@ -52,7 +52,7 @@ const More = ({ navigation }) => {
   return (
     <SafeAreaView>
       {/* header */}
-      <View className=" mx-5 flex-initial min-h-fit">
+      <View className=" mx-5 flex-initial min-h-fit pt-5">
         <Text className="text-4xl font-semibold text-left">Bắt đầu</Text>
         <View className=" pt-4 flex-row gap-2">
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>

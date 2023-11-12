@@ -14,36 +14,36 @@ import ItemCart from "../../components/cart/ItemCart";
 
 const CartList = ({ navigation }) => {
   const listCart = [
-    {
-      id: 1,
-      image:
-        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-      name: "KFC Dinner 79K",
-      price: 158000,
-      quantity: 1,
-      description:
-        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    },
-    {
-      id: 2,
-      image:
-        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-      name: "KFC Dinner 79K",
-      price: 158000,
-      quantity: 1,
-      description:
-        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    },
-    {
-      id: 3,
-      image:
-        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-      name: "KFC Dinner 79K",
-      price: 158000,
-      quantity: 1,
-      description:
-        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    },
+    // {
+    //   id: 1,
+    //   image:
+    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+    //   name: "KFC Dinner 79K",
+    //   price: 158000,
+    //   quantity: 1,
+    //   description:
+    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    // },
+    // {
+    //   id: 2,
+    //   image:
+    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+    //   name: "KFC Dinner 79K",
+    //   price: 158000,
+    //   quantity: 1,
+    //   description:
+    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    // },
+    // {
+    //   id: 3,
+    //   image:
+    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+    //   name: "KFC Dinner 79K",
+    //   price: 158000,
+    //   quantity: 1,
+    //   description:
+    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    // },
   ];
   return (
     <SafeAreaView>
