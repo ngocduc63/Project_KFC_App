@@ -905,7 +905,7 @@ const ViewMenu = ({ navigation }) => {
         renderItem={({ item, index }) => (
           <View className="">
             <Text className="text-3xl font-bold my-2 ml-2">{item.name}</Text>
-            <MenuItem data={item.data}></MenuItem>
+            <MenuItem data={item.data} navigation={navigation}></MenuItem>
             {index === lstItemFood.length - 1 && (
               <View className="h-[350px] w-full"></View>
             )}

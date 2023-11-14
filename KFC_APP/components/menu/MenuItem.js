@@ -5,12 +5,22 @@ import { AntDesign } from "@expo/vector-icons";
 const MenuItem = (props) => {
   const data = props.data;
   const title = props.tile;
+  const navigation = props.navigation;
   let dataActive = data.map(() => false);
   let [isActiveDetails, setIsActiveDetails] = useState(dataActive);
   return (
     <View className="ml-5">
       {data.map((item, index) => (
-        <View key={index}>
+        <TouchableOpacity key={index}
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [
+                { name: "ItemDetail", params: {index: index, data: item } },
+              ],
+            });
+          }}
+        >
           {isActiveDetails[index] && (
             <View className="mb-2 gap-x-3 bg-white rounded-md h-48 pt-2 w-[99.99%]">
               <View className="flex-row justify-end mr-2">
@@ -25,7 +35,7 @@ const MenuItem = (props) => {
                   <AntDesign name="close" size={16} color="black" />
                 </TouchableOpacity>
               </View>
-              <View>
+              <View className="items-center">
                 <Text className="text-[18px] mt-6">{item.description}</Text>
                 <Text className="text-[15px] mt-2">{item.timeSell}</Text>
               </View>
@@ -82,18 +92,18 @@ const MenuItem = (props) => {
                 {item.timeSell && (
                   <Text className="text-gray-400 text-sm">{item.timeSell}</Text>
                 )}
-                <View className="flex-row justify-end items-end flex-1 mb-3">
+                <View className="flex-row justify-end items-end flex-1 mb-3 -mr-4">
                   <TouchableOpacity
-                    className="mt-2 w-20 items-center bg-gray-400 py-[6px] rounded-sm"
+                    className="mt-2 w-32 items-center bg-gray-400 py-[8px] rounded-sm"
                     disabled={true}
                   >
-                    <Text className="text-white">Thêm</Text>
+                    <Text className="text-white">Thêm vào giỏ</Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
           )}
-        </View>
+        </TouchableOpacity>
       ))}
     </View>
   );
