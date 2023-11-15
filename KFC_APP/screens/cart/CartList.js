@@ -14,36 +14,36 @@ import ItemCart from "../../components/cart/ItemCart";
 
 const CartList = ({ navigation }) => {
   const listCart = [
-    // {
-    //   id: 1,
-    //   image:
-    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-    //   name: "KFC Dinner 79K",
-    //   price: 158000,
-    //   quantity: 1,
-    //   description:
-    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    // },
-    // {
-    //   id: 2,
-    //   image:
-    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-    //   name: "KFC Dinner 79K",
-    //   price: 158000,
-    //   quantity: 1,
-    //   description:
-    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    // },
-    // {
-    //   id: 3,
-    //   image:
-    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-    //   name: "KFC Dinner 79K",
-    //   price: 158000,
-    //   quantity: 1,
-    //   description:
-    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    // },
+    {
+      id: 1,
+      image:
+        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+      name: "KFC Dinner 79K",
+      price: 158000,
+      quantity: 1,
+      description:
+        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    },
+    {
+      id: 2,
+      image:
+        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+      name: "KFC Dinner 79K",
+      price: 158000,
+      quantity: 1,
+      description:
+        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    },
+    {
+      id: 3,
+      image:
+        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+      name: "KFC Dinner 79K",
+      price: 158000,
+      quantity: 1,
+      description:
+        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    },
   ];
   return (
     <SafeAreaView>
@@ -108,15 +108,15 @@ const CartList = ({ navigation }) => {
         </View>
       )}
       {listCart.length > 0 && (
-        <View className="mx-3">
-          <Text className="text-3xl font-bold">Giỏ Hàng Của Tôi</Text>
+        <View className="mx-3 mt-3">
+          <Text className="text-3xl font-bold mb-3">Giỏ Hàng Của Tôi</Text>
           <FlatList
             data={listCart}
             showsVerticalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
               <View className="mx-3">
-                <ItemCart data={item} />
+                <ItemCart data={item} navigation = {navigation}/>
                 {index === listCart.length - 1 && (
                   <View>
                     <View className="h-[300px] w-full bg-white rounded p-5 relative">
@@ -145,7 +145,7 @@ const CartList = ({ navigation }) => {
                         </TouchableOpacity>
                       </View>
                     </View>
-                    <View className="h-[600px] w-full"></View>
+                    <View className="h-[630px] w-full"></View>
                   </View>
                 )}
               </View>

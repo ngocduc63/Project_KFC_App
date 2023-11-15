@@ -336,7 +336,7 @@ const Home = ({ navigation }) => {
 
         {/* list user like */}
         <View className="px-2 flex-row flex-wrap justify-between gap-y-2 mt-5">
-          <View className="h-20 gap-x-2 w-100% flex-row items-center">
+          <View className="h-20 gap-x-2 w-100% flex-row items-center mb-5">
             <View className="">
               <Image
                 source={require("../../assets/logo_human.png")}

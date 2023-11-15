@@ -4,13 +4,24 @@ import { AntDesign } from "@expo/vector-icons";
 
 const ItemCart = (props) => {
   const data = props.data;
+  const navigation = props.navigation;
   const [isAvtiveDescription, SetIsActiveDescription] = useState(false);
   const [quantity, SetQuantity] = useState(data.quantity);
   const toggleDescription = () => {
     SetIsActiveDescription(!isAvtiveDescription);
   };
   return (
-    <View className="bg-white rounded  mb-5">
+    <TouchableOpacity
+      className="bg-white rounded  mb-5"
+      onPress={() => {
+        navigation.reset({
+          index: 0,
+          routes: [
+            { name: "ItemDetail", params: { data: data, isCart: true } },
+          ],
+        });
+      }}
+    >
       <View className="flex-row w-full border-b-[1px] border-gray-400 border-solid">
         <View className="h-28 w-1/3 mx-3 ">
           <Image
@@ -38,7 +49,19 @@ const ItemCart = (props) => {
             </View>
           )}
           <View className="absolute bottom-3 flex-row gap-x-3">
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.reset({
+                  index: 0,
+                  routes: [
+                    {
+                      name: "ItemDetail",
+                      params: { data: data, isCart: true },
+                    },
+                  ],
+                });
+              }}
+            >
               <Text className="font-bold underline">Chỉnh Sửa</Text>
             </TouchableOpacity>
             <TouchableOpacity>
@@ -75,7 +98,7 @@ const ItemCart = (props) => {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

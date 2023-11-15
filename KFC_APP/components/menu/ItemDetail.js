@@ -1,11 +1,14 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
 
 const ItemDetail = ({ navigation }) => {
   const route = useRoute();
   const item = route.params.data;
+  const isCart = route.params.isCart;
+  const [quantity, SetQuantity] = useState(item.quantity);
   return (
     <SafeAreaView>
       {/* set location */}
@@ -31,7 +34,11 @@ const ItemDetail = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("ViewMenu")}
+        onPress={() => {
+          if (isCart) {
+            navigation.navigate("CartList");
+          } else navigation.navigate("ViewMenu");
+        }}
         className="bg-blue-400 w-24 h-10 mt-1 ml-1 items-center justify-center rounded-md "
       >
         <Text className="text-white font-semibold text-base">Quay lại</Text>
@@ -55,20 +62,55 @@ const ItemDetail = ({ navigation }) => {
         <View>
           <View className="items-end mt-5 mr-5">
             <Text className="text-2xl font-bold">
-              {parseInt(item.newPrice, 10).toLocaleString("vi-VN", {
+              {parseInt(item.price, 10).toLocaleString("vi-VN", {
                 style: "currency",
                 currency: "VND",
                 minimumFractionDigits: 0,
               })}
             </Text>
           </View>
+          {isCart && (
+            <View className="-mt-8">
+              <View className="flex-row items-center gap-x-3 ml-1">
+                <TouchableOpacity
+                  className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
+                  onPress={() => {
+                    if (quantity - 1 >= 0) SetQuantity(quantity - 1);
+                  }}
+                >
+                  <AntDesign name="minus" size={20} color="black" />
+                </TouchableOpacity>
+                <Text className="text-xl">{quantity}</Text>
+                <TouchableOpacity
+                  className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
+                  onPress={() => SetQuantity(quantity + 1)}
+                >
+                  <AntDesign name="plus" size={20} color="black" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
           <View className="items-center mt-5 h-10">
-            <TouchableOpacity
-              className="items-center w-[70%] h-full bg-gray-400 rounded-full justify-center"
-              disabled={true}
-            >
-              <Text className="text-white text-lg font-bold">Thêm vào giỏ</Text>
-            </TouchableOpacity>
+            {!isCart && (
+              <TouchableOpacity
+                className="items-center w-[70%] h-full bg-gray-400 rounded-full justify-center"
+                disabled={true}
+              >
+                <Text className="text-white text-lg font-bold">
+                  Thêm vào giỏ
+                </Text>
+              </TouchableOpacity>
+            )}
+            {isCart && (
+              <TouchableOpacity
+                className="items-center w-[70%] h-full bg-red-600 rounded-full justify-center"
+                onPress={() => {
+                  navigation.navigate("CartList");
+                }}
+              >
+                <Text className="text-white text-lg font-bold">Xác Nhận</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>

@@ -67,16 +67,16 @@ const MenuItem = (props) => {
                 </View>
                 <View className="flex-row gap-x-3 mb-1">
                   <Text className="text-xl font-semibold">
-                    {parseInt(item.newPrice, 10).toLocaleString("vi-VN", {
+                    {parseInt(item.price, 10).toLocaleString("vi-VN", {
                       style: "currency",
                       currency: "VND",
                       minimumFractionDigits: 0,
                     })}
                   </Text>
-                  {item.price && (
+                  {item.newPrice && (
                     <View>
                       <Text className="text-lg text-gray-500 font-semibold ">
-                        {parseInt(item.price, 10).toLocaleString("vi-VN", {
+                        {parseInt(item.newPrice, 10).toLocaleString("vi-VN", {
                           style: "currency",
                           currency: "VND",
                           minimumFractionDigits: 0,
