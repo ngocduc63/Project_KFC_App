@@ -62,11 +62,17 @@ const ItemDetail = ({ navigation }) => {
         <View>
           <View className="items-end mt-5 mr-5">
             <Text className="text-2xl font-bold">
-              {parseInt(item.price, 10).toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-                minimumFractionDigits: 0,
-              })}
+              {quantity
+                ? parseInt(item.price * quantity, 10).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0,
+                  })
+                : parseInt(item.price, 10).toLocaleString("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                    minimumFractionDigits: 0,
+                  })}
             </Text>
           </View>
           {isCart && (
@@ -75,7 +81,7 @@ const ItemDetail = ({ navigation }) => {
                 <TouchableOpacity
                   className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
                   onPress={() => {
-                    if (quantity - 1 >= 0) SetQuantity(quantity - 1);
+                    if (quantity - 1 >= 1) SetQuantity(quantity - 1);
                   }}
                 >
                   <AntDesign name="minus" size={20} color="black" />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   Text,
   View,
@@ -20,10 +20,13 @@ import { Alert } from "react-native";
 const Register = ({ navigation }) => {
   const [isShowPassWord, setIsShowPassWord] = useState(true);
   const [isCheckPolicy, setIsCheckPolicy] = useState(false);
-
+  const scrollViewRef = useRef();
+  const scrollToPosition = () => {
+    scrollViewRef.current.scrollTo({ y: 200, animated: true });
+  };
   return (
     <SafeAreaView>
-      <ScrollView className="gap-y-5">
+      <ScrollView className="gap-y-5" ref={scrollViewRef}>
         {/* header */}
         <View className="px-5 h-20 border-b-[1px] border-zinc-300 fixed flex-row justify-between items-center">
           <TouchableHighlight
@@ -76,6 +79,7 @@ const Register = ({ navigation }) => {
                 placeholder="Nhập mật khẩu của bạn"
                 autoCapitalize="none"
                 secureTextEntry={isShowPassWord}
+                onFocus={scrollToPosition}
               />
               <TouchableOpacity
                 onPress={() => {

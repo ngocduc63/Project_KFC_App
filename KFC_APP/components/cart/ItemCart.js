@@ -75,7 +75,7 @@ const ItemCart = (props) => {
           <TouchableOpacity
             className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
             onPress={() => {
-              if (quantity - 1 >= 0) SetQuantity(quantity - 1);
+              if (quantity - 1 >= 1) SetQuantity(quantity - 1);
             }}
           >
             <AntDesign name="minus" size={20} color="black" />
@@ -90,7 +90,7 @@ const ItemCart = (props) => {
         </View>
         <View className="items-end mr-3 -mt-8">
           <Text className="text-xl font-semibold">
-            {data.price.toLocaleString("vi-VN", {
+            {(data.price * quantity).toLocaleString("vi-VN", {
               style: "currency",
               currency: "VND",
               minimumFractionDigits: 0,

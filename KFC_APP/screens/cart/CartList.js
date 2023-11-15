@@ -116,31 +116,34 @@ const CartList = ({ navigation }) => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
               <View className="mx-3">
-                <ItemCart data={item} navigation = {navigation}/>
+                <ItemCart data={item} navigation={navigation} />
                 {index === listCart.length - 1 && (
                   <View>
-                    <View className="h-[300px] w-full bg-white rounded p-5 relative">
+                    <View className="h-[250px] w-full bg-white rounded p-5 relative">
                       <Text className="text-3xl font-bold">
                         {listCart.length} MÓN
                       </Text>
                       <View className="h-[1px] w-full bg-gray-400 mt-5"></View>
+                      <View className="flex-row justify-between mt-5">
+                        <Text className="text-xl font-bold">Tổng tiền</Text>
+                        <Text className="text-xl font-bold">
+                          {listCart
+                            .reduce(
+                              (accumulator, currentItem) =>
+                                accumulator + currentItem.price,
+                              0
+                            )
+                            .toLocaleString("vi-VN", {
+                              style: "currency",
+                              currency: "VND",
+                              minimumFractionDigits: 0,
+                            })}
+                        </Text>
+                      </View>
                       <View className="absolute bottom-4 items-center w-full ml-4">
                         <TouchableOpacity className="w-[90%] bg-red-600 py-3 rounded-full flex-row justify-around">
                           <Text className="font-bold text-white text-xl">
                             Thanh Toán
-                          </Text>
-                          <Text className="font-bold text-white text-xl">
-                            {listCart
-                              .reduce(
-                                (accumulator, currentItem) =>
-                                  accumulator + currentItem.price,
-                                0
-                              )
-                              .toLocaleString("vi-VN", {
-                                style: "currency",
-                                currency: "VND",
-                                minimumFractionDigits: 0,
-                              })}
                           </Text>
                         </TouchableOpacity>
                       </View>
