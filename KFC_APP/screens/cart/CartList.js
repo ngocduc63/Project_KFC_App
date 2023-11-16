@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import ItemCart from "../../components/cart/ItemCart";
+import Header from "../../components/Header";
 
 const CartList = ({ navigation }) => {
   const listCart = [
@@ -63,27 +64,7 @@ const CartList = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {/* set location */}
-      <View className="h-36 bg-gray-800 items-center justify-center pb-5">
-        <Text className="text-[16px] text-slate-50 font-semibold pb-5">
-          Đặt ngay{"  "}
-          <Image
-            source={require("../../assets/delivery.png")}
-            style={{ width: 50, height: 50 }}
-          />{" "}
-          Giao hàng{" "}
-          <Image
-            source={require("../../assets/bag_take_away.png")}
-            style={{ width: 50, height: 50 }}
-          />{" "}
-          Hoặc mang đi
-        </Text>
-        <TouchableOpacity className="bg-red-700 justify-center items-center h-[50px] px-20 rounded-full">
-          <Text className="text-[16px] text-slate-50 font-semibold">
-            {" "}
-            Bắt đầu đặt hàng
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Header/>
       {/* Content */}
       {listCart.length <= 0 && (
         <View className="mt-3 mx-2">

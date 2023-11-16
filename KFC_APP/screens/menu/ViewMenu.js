@@ -5,6 +5,7 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { FlatList } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import MenuItem from "../../components/menu/MenuItem";
+import Header from "../../components/Header";
 
 const ViewMenu = ({ navigation }) => {
   const route = useRoute();
@@ -805,27 +806,7 @@ const ViewMenu = ({ navigation }) => {
   return (
     <SafeAreaView>
       {/* set location */}
-      <View className="h-36 bg-gray-800 items-center justify-center pb-5">
-        <Text className="text-[16px] text-slate-50 font-semibold pb-5">
-          Đặt ngay{"  "}
-          <Image
-            source={require("../../assets/delivery.png")}
-            style={{ width: 50, height: 50 }}
-          />{" "}
-          Giao hàng{" "}
-          <Image
-            source={require("../../assets/bag_take_away.png")}
-            style={{ width: 50, height: 50 }}
-          />{" "}
-          Hoặc mang đi
-        </Text>
-        <TouchableOpacity className="bg-red-700 justify-center items-center h-[50px] px-20 rounded-full">
-          <Text className="text-[16px] text-slate-50 font-semibold">
-            {" "}
-            Bắt đầu đặt hàng
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Header/>
       {/* Header */}
       <View className="mt-3 border-b-[0.5px] border-gray-400 border-solid">
         <FlatList

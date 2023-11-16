@@ -2,8 +2,23 @@ import { Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign, Zocial } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const More = ({ navigation }) => {
+  const [isLogin, SetIsLogin] = useState(null);
+
+  const getLogin = async () => {
+    try {
+      const login = await AsyncStorage.getItem("isLogin");
+      if (login) {
+        SetIsLogin(login);
+      }
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  };
+  getLogin();
+
   const [iconNames, setIconNames] = useState(["down", "down", "down", "down"]);
   const lstTitle = [
     {
@@ -54,15 +69,17 @@ const More = ({ navigation }) => {
       {/* header */}
       <View className=" mx-5 flex-initial min-h-fit pt-5">
         <Text className="text-4xl font-semibold text-left">Bắt đầu</Text>
-        <View className=" pt-4 flex-row gap-2">
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text className="text-xl font-medium text-left">Đăng nhập</Text>
-          </TouchableOpacity>
-          <Text className="text-xl font-medium text-left"> / </Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-            <Text className="text-xl font-medium text-left">Đăng ký</Text>
-          </TouchableOpacity>
-        </View>
+        {isLogin == "false" && (
+          <View className=" pt-4 flex-row gap-2">
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text className="text-xl font-medium text-left">Đăng nhập</Text>
+            </TouchableOpacity>
+            <Text className="text-xl font-medium text-left"> / </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              <Text className="text-xl font-medium text-left">Đăng ký</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       {/* list introduce */}

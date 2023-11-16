@@ -14,23 +14,31 @@ import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const YourComponent = () => {
-
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true);
-    });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false);
-    });
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
 
     return () => {
       keyboardDidShowListener.remove();
       keyboardDidHideListener.remove();
     };
-  }, [])};
+  }, []);
+};
 
 const FirstRoute = ({ navigation }) => (
   <View className="">
@@ -55,7 +63,7 @@ const FirstRoute = ({ navigation }) => (
   </View>
 );
 
-const SecondRoute = ({ navigation }) => (
+const SecondRoute = ({ navigation, data }) => (
   <View>
     <View className="mt-3 px-2">
       <Text className="font-bold text-[28px] mb-2">CHI TIẾT TÀI KHOẢN</Text>
@@ -69,7 +77,7 @@ const SecondRoute = ({ navigation }) => (
               placeholder="Nhập họ tên của bạn"
               selectionColor={"red"}
               autoCapitalize="none"
-              value="Nguyễn Ngọc Đức"
+              value={data.name}
             />
           </View>
         </View>
@@ -94,7 +102,7 @@ const SecondRoute = ({ navigation }) => (
               placeholder="Nhập email của bạn"
               selectionColor={"red"}
               autoCapitalize="none"
-              value="duco060303@gmail.com"
+              value={data.userName}
             />
           </View>
         </View>
@@ -206,15 +214,53 @@ const ThreeRoute = ({ navigation }) => (
 // const renderScene =
 
 const Profile = ({ navigation }) => {
+  const [nameData, SetNameData] = useState(null);
+  const [userNameData, SetUserNameData] = useState(null);
+  const [isLogin, SetIsLogin] = useState(null);
+
+  const setLogin = async () => {
+    try {
+      await AsyncStorage.setItem("isLogin", "false");
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  };
+  const getData = async () => {
+    try {
+      const name = await AsyncStorage.getItem("name");
+      const userName = await AsyncStorage.getItem("userName");
+      const login = await AsyncStorage.getItem("isLogin");
+      if (name !== null && userName !== null && login !== null) {
+        SetUserNameData(userName);
+        SetNameData(name);
+        SetIsLogin(login);
+      }
+    } catch (e) {
+      console.log("Lỗi load data local: " + e.message);
+    }
+  };
+  getData();
+
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      setKeyboardVisible(true);
-    });
-    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      setKeyboardVisible(false);
-    });
-  });
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
   const layout = useWindowDimensions();
   const [index, setIndex] = React.useState(0);
   const [routes] = useState([
@@ -250,42 +296,78 @@ const Profile = ({ navigation }) => {
                 style={{ width: "100%", height: "100%" }}
               />
             </View>
-            <View className="h-30 w-[70%] ml-5">
-              <Text className="text-white font-bold text-2xl">
-                XIN CHÀO, NGUYỄN NGỌC ĐỨC
-              </Text>
-              <TouchableOpacity className="mt-5">
-                <Text className="text-white underline font-semibold text-lg">
-                  Đăng xuất
+            {isLogin === "true" && (
+              <View className="h-30 w-[70%] ml-5">
+                <Text className="text-white font-bold text-2xl pr-3">
+                  XIN CHÀO, {nameData}
                 </Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  className="mt-5"
+                  onPress={() => {
+                    setLogin();
+                    Alert.alert("Đăng xuất thành công");
+                    navigation.reset({
+                      index: 0,
+                      routes: [{ name: "Fisrt" }],
+                    });
+                  }}
+                >
+                  <Text className="text-white underline font-semibold text-lg">
+                    Đăng xuất
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            {isLogin === "false" && (
+              <View className="h-30 w-[70%] ml-5">
+                <Text className="text-white font-bold text-2xl pr-3">
+                  Vui Lòng Đăng Nhập!
+                </Text>
+                <TouchableOpacity
+                  className="mt-5"
+                  onPress={() => {
+                    navigation.navigate("Login");
+                  }}
+                >
+                  <Text className="text-white underline font-semibold text-xl">
+                    Đăng nhập
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         )}
         {/* Tab content */}
-        <View className="h-full">
-          <TabView
-            navigationState={{ index, routes }}
-            renderScene={({ route }) => {
-              if (route.key === "first") {
-                return <FirstRoute navigation={navigation} />;
-              } else if (route.key === "second") {
-                return <SecondRoute navigation={navigation} />;
-              } else if (route.key === "three") {
-                return <ThreeRoute navigation={navigation} />;
-              }
-            }}
-            onIndexChange={setIndex}
-            renderTabBar={(props) => (
-              <TabBar
-                {...props}
-                style={{ backgroundColor: "black" }}
-                indicatorStyle={{ backgroundColor: "red" }}
-                labelStyle={{ fontSize: 10 }}
-              />
-            )}
-          />
-        </View>
+        {isLogin === "true" && (
+          <View className="h-full">
+            <TabView
+              navigationState={{ index, routes }}
+              renderScene={({ route }) => {
+                if (route.key === "first") {
+                  return <FirstRoute navigation={navigation} />;
+                } else if (route.key === "second") {
+                  return (
+                    <SecondRoute
+                      navigation={navigation}
+                      data={{ name: nameData, userName: userNameData }}
+                    />
+                  );
+                } else if (route.key === "three") {
+                  return <ThreeRoute navigation={navigation} />;
+                }
+              }}
+              onIndexChange={setIndex}
+              renderTabBar={(props) => (
+                <TabBar
+                  {...props}
+                  style={{ backgroundColor: "black" }}
+                  indicatorStyle={{ backgroundColor: "red" }}
+                  labelStyle={{ fontSize: 10 }}
+                />
+              )}
+            />
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );

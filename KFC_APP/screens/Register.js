@@ -16,6 +16,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { Alert } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Register = ({ navigation }) => {
   const [isShowPassWord, setIsShowPassWord] = useState(true);
@@ -24,6 +25,31 @@ const Register = ({ navigation }) => {
   const scrollToPosition = () => {
     scrollViewRef.current.scrollTo({ y: 200, animated: true });
   };
+
+  const [userNameInput, SetUserNameInput] = useState(null);
+  const [passWordInput, SetPassWordInput] = useState(null);
+  const [name, SetName] = useState(null);
+
+  const setLogin = async () => {
+    try {
+      await AsyncStorage.setItem("isLogin", "true");
+    } catch (e) {
+      console.log("Lỗi lưu data local: " );
+    }
+  };
+
+  const storeData = async (userName, passWord, name) => {
+    try {
+      await AsyncStorage.setItem("userName", userName);
+      await AsyncStorage.setItem("passWord", passWord);
+      await AsyncStorage.setItem("name", name);
+
+      Alert.alert("Đăng kí thành công");
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  };
+
   return (
     <SafeAreaView>
       <ScrollView className="gap-y-5" ref={scrollViewRef}>
@@ -57,6 +83,7 @@ const Register = ({ navigation }) => {
                 autoCapitalize="none"
                 placeholder="Nhập email của bạn"
                 selectionColor={"red"}
+                onChangeText={(value) => SetUserNameInput(value)}
               />
             </View>
 
@@ -67,6 +94,7 @@ const Register = ({ navigation }) => {
               <TextInput
                 style={{ width: "100%", fontSize: 20, marginLeft: -16 }}
                 placeholder="Nhập tên của bạn"
+                onChangeText={(value) => SetName(value)}
               />
             </View>
 
@@ -80,6 +108,7 @@ const Register = ({ navigation }) => {
                 autoCapitalize="none"
                 secureTextEntry={isShowPassWord}
                 onFocus={scrollToPosition}
+                onChangeText={(value) => SetPassWordInput(value)}
               />
               <TouchableOpacity
                 onPress={() => {
@@ -136,8 +165,14 @@ const Register = ({ navigation }) => {
             <TouchableOpacity
               className="w-full h-16 justify-center items-center bg-red-600 rounded-full my-5"
               onPress={() => {
-                if (isCheckPolicy) navigation.navigate("Home");
-                else
+                if (isCheckPolicy) {
+                  storeData(userNameInput, passWordInput, name);
+                  setLogin();
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "FirstOrder" }],
+                  });
+                } else
                   Alert.alert(
                     "Vui lòng đồng ý chính sách hoạt động và bảo mật !!!"
                   );

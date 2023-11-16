@@ -10,8 +10,38 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo, FontAwesome } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const Login = ({ navigation }) => {
+  const [userName, SetUserName] = useState(null);
+  const [passWord, SetPassWord] = useState(null);
+
+  const [userNameInput, SetUserNameInput] = useState(null);
+  const [passWordInput, SetPassWordInput] = useState(null);
+
+  const setLogin = async () => {
+    try {
+      await AsyncStorage.setItem("isLogin", "true");
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const userNameData = await AsyncStorage.getItem("userName");
+      const passWordData = await AsyncStorage.getItem("passWord");
+      if (userNameData !== null && passWordData !== null) {
+        SetUserName(userNameData);
+        SetPassWord(passWordData);
+      }
+    } catch (e) {
+      console.log("Lỗi load data local: " + e.message);
+    }
+  };
+  getData();
+
   const [isShowPassWord, setIsShowPassWord] = useState(true);
   return (
     <SafeAreaView>
@@ -44,6 +74,7 @@ const Login = ({ navigation }) => {
                 placeholder="Nhập email của bạn"
                 selectionColor={"red"}
                 autoCapitalize="none"
+                onChangeText={(value) => SetUserNameInput(value)}
               />
             </View>
             <Text className="text-xl font-bold text-left mt-5 mb-3">
@@ -55,6 +86,7 @@ const Login = ({ navigation }) => {
                 placeholder="Nhập mật khẩu của bạn"
                 secureTextEntry={isShowPassWord}
                 autoCapitalize="none"
+                onChangeText={(value) => SetPassWordInput(value)}
               />
               <TouchableOpacity
                 onPress={() => {
@@ -71,7 +103,18 @@ const Login = ({ navigation }) => {
 
             <TouchableOpacity
               className="w-full h-16 justify-center items-center bg-lime-600 rounded-full mt-10"
-              onPress={() => navigation.navigate("Home")}
+              onPress={() => {
+                if (userName === userNameInput && passWord === passWordInput) {
+                  Alert.alert("Đăng nhập thành công");
+                  setLogin();
+                  navigation.reset({
+                    index: 0,
+                    routes: [{ name: "FirstOrder" }],
+                  });
+                } else {
+                  Alert.alert("Đăng nhập thất bại");
+                }
+              }}
             >
               <Text className="text-xl font-bold text-left text-white">
                 Đăng nhập
