@@ -216,7 +216,7 @@ const ThreeRoute = ({ navigation }) => (
 const Profile = ({ navigation }) => {
   const [nameData, SetNameData] = useState(null);
   const [userNameData, SetUserNameData] = useState(null);
-  const [isLogin, SetIsLogin] = useState(null);
+  const [isLogin, SetIsLogin] = useState(false);
 
   const setLogin = async () => {
     try {
@@ -225,24 +225,25 @@ const Profile = ({ navigation }) => {
       console.log("Lỗi lưu data local: ");
     }
   };
+
   const getData = async () => {
     try {
       const name = await AsyncStorage.getItem("name");
       const userName = await AsyncStorage.getItem("userName");
       const login = await AsyncStorage.getItem("isLogin");
-      if (name !== null && userName !== null && login !== null) {
-        SetUserNameData(userName);
-        SetNameData(name);
-        SetIsLogin(login);
-      }
+
+      SetUserNameData(userName);
+      SetNameData(name);
+      SetIsLogin(login);
     } catch (e) {
       console.log("Lỗi load data local: " + e.message);
     }
   };
-  getData();
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
+    getData();
+
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
@@ -296,7 +297,7 @@ const Profile = ({ navigation }) => {
                 style={{ width: "100%", height: "100%" }}
               />
             </View>
-            {isLogin === "true" && (
+            {isLogin && (
               <View className="h-30 w-[70%] ml-5">
                 <Text className="text-white font-bold text-2xl pr-3">
                   XIN CHÀO, {nameData}
@@ -318,7 +319,7 @@ const Profile = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             )}
-            {isLogin === "false" && (
+            {(!isLogin || isLogin == null) && (
               <View className="h-30 w-[70%] ml-5">
                 <Text className="text-white font-bold text-2xl pr-3">
                   Vui Lòng Đăng Nhập!
