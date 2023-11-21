@@ -239,11 +239,10 @@ const Profile = ({ navigation }) => {
       console.log("Lỗi load data local: " + e.message);
     }
   };
+  getData();
 
   const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   useEffect(() => {
-    getData();
-
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       () => {
