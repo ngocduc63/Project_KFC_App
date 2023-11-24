@@ -3,12 +3,54 @@ import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const ItemDetail = ({ navigation }) => {
   const route = useRoute();
   const item = route.params.data;
   const isCart = route.params.isCart;
   const [quantity, SetQuantity] = useState(item.quantity);
+  const setCartData = async (data, quantity) => {
+    try {
+      let cart = await AsyncStorage.getItem("cartData");
+      cart = cart ? JSON.parse(cart) : [];
+      const indexToUpdate = cart.findIndex((item) => item.name === data.name);
+  
+      if (indexToUpdate !== -1) {
+        data.quantity = quantity;
+
+        cart[indexToUpdate] = { ...cart[indexToUpdate], ...data };
+        
+        await AsyncStorage.setItem("cartData", JSON.stringify(cart));
+  
+        Alert.alert("Sửa thành công");
+      } 
+    } catch (e) {
+      console.log("Lỗi lưu data local: " + e.message);
+    }
+  };
+  const addCartData = async (data) => {
+    try {
+      let cart = await AsyncStorage.getItem("cartData");
+      cart = cart ? JSON.parse(cart) : [];
+  
+      const existingItemIndex = cart.findIndex(item => item.name === data.name);
+  
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        cart = [...cart, { ...data, quantity: 1 }];
+      }
+  
+      await AsyncStorage.setItem("cartData", JSON.stringify(cart));
+  
+      Alert.alert("Thêm món ăn thành công");
+  
+    } catch (e) {
+      console.log("Lỗi lưu data local: " + e.message);
+    }
+  };
   return (
     <SafeAreaView>
       {/* set location */}
@@ -100,7 +142,9 @@ const ItemDetail = ({ navigation }) => {
             {!isCart && (
               <TouchableOpacity
                 className="items-center w-[70%] h-full bg-gray-400 rounded-full justify-center"
-                disabled={true}
+                onPress={() => {
+                  addCartData(item);
+                }}
               >
                 <Text className="text-white text-lg font-bold">
                   Thêm vào giỏ
@@ -111,7 +155,14 @@ const ItemDetail = ({ navigation }) => {
               <TouchableOpacity
                 className="items-center w-[70%] h-full bg-red-600 rounded-full justify-center"
                 onPress={() => {
-                  navigation.navigate("CartList");
+                  setCartData(item, quantity);
+                  //navigation.navigate("CartList");
+                  navigation.reset({
+                    index: 0,
+                    routes: [
+                      { name: "CartList", params: { data: "ok" } },
+                    ],
+                  });
                 }}
               >
                 <Text className="text-white text-lg font-bold">Xác Nhận</Text>

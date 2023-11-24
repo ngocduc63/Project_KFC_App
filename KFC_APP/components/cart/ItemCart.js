@@ -1,10 +1,27 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 const ItemCart = (props) => {
   const data = props.data;
   const navigation = props.navigation;
+  const removeFromCart = async (data) => {
+    try {
+      let cart = await AsyncStorage.getItem("cartData");
+      cart = cart ? JSON.parse(cart) : [];
+  
+      const updatedCart = cart.filter(item => item.name !== data.name);
+  
+      await AsyncStorage.setItem("cartData", JSON.stringify(updatedCart));
+  
+      Alert.alert(`Đã xóa ${data.name} khỏi giỏ hàng`);
+      
+    } catch (e) {
+      console.log("Lỗi xóa khỏi giỏ hàng: " + e.message);
+    }
+  };
   const [isAvtiveDescription, SetIsActiveDescription] = useState(false);
   const [quantity, SetQuantity] = useState(data.quantity);
   const toggleDescription = () => {
@@ -64,7 +81,17 @@ const ItemCart = (props) => {
             >
               <Text className="font-bold underline">Chỉnh Sửa</Text>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity  
+              onPress={() => {
+                removeFromCart(data);
+                navigation.reset({
+                  index: 0,
+                  routes: [
+                    { name: "CartList", params: { data: "ok" } },
+                  ],
+                });
+              }}
+            >
               <Text className="font-bold underline">Xóa</Text>
             </TouchableOpacity>
           </View>
@@ -74,27 +101,33 @@ const ItemCart = (props) => {
         <View className="flex-row items-center gap-x-3 ml-1">
           <TouchableOpacity
             className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
-            onPress={() => {
-              if (quantity - 1 >= 1) SetQuantity(quantity - 1);
-            }}
+          //   onPress={() => {
+          //     if (quantity - 1 >= 1) SetQuantity(quantity - 1);
+          //   }}
           >
             <AntDesign name="minus" size={20} color="black" />
           </TouchableOpacity>
           <Text className="text-xl">{quantity}</Text>
           <TouchableOpacity
             className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
-            onPress={() => SetQuantity(quantity + 1)}
+            //onPress={() => SetQuantity(quantity + 1)}
           >
             <AntDesign name="plus" size={20} color="black" />
           </TouchableOpacity>
         </View>
         <View className="items-end mr-3 -mt-8">
           <Text className="text-xl font-semibold">
-            {(data.price * quantity).toLocaleString("vi-VN", {
-              style: "currency",
-              currency: "VND",
-              minimumFractionDigits: 0,
-            })}
+            {quantity
+              ? parseInt(data.price * quantity, 10).toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                  minimumFractionDigits: 0,
+                })
+              : parseInt(data.price, 10).toLocaleString("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                  minimumFractionDigits: 0,
+                })}
           </Text>
         </View>
       </View>

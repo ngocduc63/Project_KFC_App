@@ -6,46 +6,70 @@ import {
   TouchableOpacity,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
 import ItemCart from "../../components/cart/ItemCart";
 import Header from "../../components/Header";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRoute } from "@react-navigation/native";
 
 const CartList = ({ navigation }) => {
-  const listCart = [
-    {
-      id: 1,
-      image:
-        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-      name: "KFC Dinner 79K",
-      price: 158000,
-      quantity: 1,
-      description:
-        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    },
-    {
-      id: 2,
-      image:
-        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-      name: "KFC Dinner 79K",
-      price: 158000,
-      quantity: 1,
-      description:
-        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    },
-    {
-      id: 3,
-      image:
-        "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
-      name: "KFC Dinner 79K",
-      price: 158000,
-      quantity: 1,
-      description:
-        "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
-    },
+  const route = useRoute();
+  const params = route.params;
+
+  const [listCart, SetListCart] = useState(null);
+
+  const getCartData = async () => {
+    try {
+      const cartDataStringTest = await AsyncStorage.getItem("cartData");
+      const cartDataString = await AsyncStorage.getItem("cartData");
+      const cartData = JSON.parse(cartDataString || "[]");
+      console.log("cart" , cartData);
+      SetListCart(cartData);
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  };
+  useEffect(() => {
+    getCartData();
+    
+  }, [params]); 
+
+  const listCartTest = [
+    // {
+    //   id: 1,
+    //   image:
+    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+    //   name: "KFC Dinner 79K",
+    //   price: 158000,
+    //   quantity: 1,
+    //   description:
+    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    // },
+    // {
+    //   id: 2,
+    //   image:
+    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+    //   name: "KFC Dinner 79K",
+    //   price: 158000,
+    //   quantity: 1,
+    //   description:
+    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    // },
+    // {
+    //   id: 3,
+    //   image:
+    //     "https://static.kfcvietnam.com.vn/images/items/lg/dinner-1.jpg?v=3JQQkg",
+    //   name: "KFC Dinner 79K",
+    //   price: 158000,
+    //   quantity: 1,
+    //   description:
+    //     "Cơm gà (1 Phần) + Gà Giòn Cay + Gà Rán(1 miếng) + Gà Giòn Cay + Pepsi Lon",
+    // },
   ];
+  const cartLength = listCart ? listCart.length : 0;
   return (
     <SafeAreaView>
       {/* Header */}
@@ -64,9 +88,9 @@ const CartList = ({ navigation }) => {
         </TouchableOpacity>
       </View>
       {/* set location */}
-      <Header/>
+      <Header />
       {/* Content */}
-      {listCart.length <= 0 && (
+      {cartLength <= 0 && (
         <View className="mt-3 mx-2">
           <Text className="text-3xl font-bold">Giỏ Hàng Của Tôi</Text>
           <View className="h-[400px] bg-white mx-5 rounded-lg mt-5 px-5">
@@ -88,7 +112,7 @@ const CartList = ({ navigation }) => {
           </View>
         </View>
       )}
-      {listCart.length > 0 && (
+      {cartLength > 0 && (
         <View className="mx-3 mt-3">
           <Text className="text-3xl font-bold mb-3">Giỏ Hàng Của Tôi</Text>
           <FlatList
@@ -98,11 +122,11 @@ const CartList = ({ navigation }) => {
             renderItem={({ item, index }) => (
               <View className="mx-3">
                 <ItemCart data={item} navigation={navigation} />
-                {index === listCart.length - 1 && (
+                {index === cartLength - 1 && (
                   <View>
                     <View className="h-[250px] w-full bg-white rounded p-5 relative">
                       <Text className="text-3xl font-bold">
-                        {listCart.length} MÓN
+                        {cartLength} MÓN
                       </Text>
                       <View className="h-[1px] w-full bg-gray-400 mt-5"></View>
                       <View className="flex-row justify-between mt-5">
@@ -111,7 +135,7 @@ const CartList = ({ navigation }) => {
                           {listCart
                             .reduce(
                               (accumulator, currentItem) =>
-                                accumulator + currentItem.price,
+                                accumulator + currentItem.price * currentItem.quantity,
                               0
                             )
                             .toLocaleString("vi-VN", {

@@ -58,6 +58,7 @@ const Header = () => {
         const longitude = location.coords.longitude;
 
         console.log("latitude " + latitude);
+        console.log("longitude " + longitude);
 
         const apiKey = "6e806f79046440a0897e1b732fcaaeb5";
 
@@ -71,7 +72,8 @@ const Header = () => {
           const parts = dataAdd.split(",");
           const cleanedAddress = parts.slice(0, -2).join(",");
           setAddressData(cleanedAddress);
-          storeData(addressData);
+          console.log(cleanedAddress);
+          storeData(cleanedAddress);
           setIsLoading(2);
         } else {
           console.error("Failed to fetch data from the API");

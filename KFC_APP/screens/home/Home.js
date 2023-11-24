@@ -13,10 +13,31 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import * as Location from "expo-location";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from "../../components/Header";
+import { Alert } from "react-native";
 
 //https://api.geoapify.com/v1/geocode/reverse?lat=21.039005&lon=105.832113&apiKey=6e806f79046440a0897e1b732fcaaeb5
 const Home = ({ navigation }) => {
+  const setCartData = async (data) => {
+    try {
+      let cart = await AsyncStorage.getItem("cartData");
+      cart = cart ? JSON.parse(cart) : [];
   
+      const existingItemIndex = cart.findIndex(item => item.name === data.name);
+  
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        cart = [...cart, { ...data, quantity: 1 }];
+      }
+  
+      await AsyncStorage.setItem("cartData", JSON.stringify(cart));
+  
+      Alert.alert("Thêm món ăn thành công");
+  
+    } catch (e) {
+      console.log("Lỗi lưu data local: " + e.message);
+    }
+  };
   const listImgCarousel = [
     require("../../assets/banner/banner_1.png"),
     require("../../assets/banner/banner_2.jpg"),
@@ -273,7 +294,9 @@ const Home = ({ navigation }) => {
                     </Text>
                     <TouchableOpacity
                       className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full"
-                      disabled={true}
+                      onPress={() => {
+                        setCartData(item);
+                      }}
                     >
                       <Text className="text-[18px] text-white">Thêm</Text>
                     </TouchableOpacity>

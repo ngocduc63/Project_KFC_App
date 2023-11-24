@@ -9,8 +9,9 @@ export default function App() {
       await AsyncStorage.setItem("userName", userName);
       await AsyncStorage.setItem("passWord", passWord);
       await AsyncStorage.setItem("isLogin", "false");
+      await AsyncStorage.setItem("cartData", JSON.stringify([]));
     } catch (e) {
-      console.log("Lỗi lưu data local: " );
+      console.log("Lỗi lưu data local: ");
     }
   };
 

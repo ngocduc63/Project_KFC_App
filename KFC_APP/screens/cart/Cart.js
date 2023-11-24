@@ -14,7 +14,7 @@ const First = () => {
       initialRouteName="CartList"
       screenOptions={{ headerShown: false }}
     >
-      <Stack.Screen name="CartList" component={CartList} />
+      <Stack.Screen name="CartList" component={CartList} initialParams={params}/>
       <Stack.Screen name="ItemDetail" component={ItemDetail} initialParams={params}/>
       <Stack.Screen name="Profile" component={Profile} />
     </Stack.Navigator>

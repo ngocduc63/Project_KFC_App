@@ -1,6 +1,8 @@
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from "react-native";
 
 const MenuItem = (props) => {
   const data = props.data;
@@ -8,6 +10,28 @@ const MenuItem = (props) => {
   const navigation = props.navigation;
   let dataActive = data.map(() => false);
   let [isActiveDetails, setIsActiveDetails] = useState(dataActive);
+
+  const setCartData = async (data) => {
+    try {
+      let cart = await AsyncStorage.getItem("cartData");
+      cart = cart ? JSON.parse(cart) : [];
+  
+      const existingItemIndex = cart.findIndex(item => item.name === data.name);
+  
+      if (existingItemIndex !== -1) {
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        cart = [...cart, { ...data, quantity: 1 }];
+      }
+  
+      await AsyncStorage.setItem("cartData", JSON.stringify(cart));
+  
+      Alert.alert("Thêm món ăn thành công");
+  
+    } catch (e) {
+      console.log("Lỗi lưu data local: " + e.message);
+    }
+  };
   return (
     <View className="ml-5">
       {data.map((item, index) => (
@@ -95,7 +119,10 @@ const MenuItem = (props) => {
                 <View className="flex-row justify-end items-end flex-1 mb-3 -mr-4">
                   <TouchableOpacity
                     className="mt-2 w-32 items-center bg-gray-400 py-[8px] rounded-sm"
-                    disabled={true}
+                    onPress={() => {
+                      setCartData(item);
+                      navigation.navigate("Menu");
+                    }}
                   >
                     <Text className="text-white">Thêm vào giỏ</Text>
                   </TouchableOpacity>
