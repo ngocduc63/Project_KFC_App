@@ -14,29 +14,52 @@ import ItemCart from "../../components/cart/ItemCart";
 import Header from "../../components/Header";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRoute } from "@react-navigation/native";
+import { Alert } from "react-native";
 
 const CartList = ({ navigation }) => {
   const route = useRoute();
   const params = route.params;
 
   const [listCart, SetListCart] = useState(null);
+  const [isLogin, SetIsLogin] = useState();
+
+  const setLogin = async () => {
+    try {
+      const login = await AsyncStorage.getItem("isLogin");
+      SetIsLogin(login);
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  };
+
+  const resetCart = async  () =>{
+    try {
+      await AsyncStorage.setItem("cartData", JSON.stringify([]));
+
+    } catch (e) {
+      console.log("Lỗi lưu data local: ");
+    }
+  }
 
   const getCartData = async () => {
     try {
       const cartDataStringTest = await AsyncStorage.getItem("cartData");
       const cartDataString = await AsyncStorage.getItem("cartData");
       const cartData = JSON.parse(cartDataString || "[]");
-      console.log("cart" , cartData);
       SetListCart(cartData);
     } catch (e) {
       console.log("Lỗi lưu data local: ");
     }
   };
-  useEffect(() => {
+  
+  const executeOnLoad = () => {
     getCartData();
-    
-  }, [params]); 
+    setLogin();
+  };
 
+  useEffect(() => {
+    executeOnLoad();
+  });
   const listCartTest = [
     // {
     //   id: 1,
@@ -71,7 +94,7 @@ const CartList = ({ navigation }) => {
   ];
   const cartLength = listCart ? listCart.length : 0;
   return (
-    <SafeAreaView>
+    <SafeAreaView onLayout={executeOnLoad}> 
       {/* Header */}
       <View className="px-5 h-20 border-b-[1px] border-zinc-300 fixed flex-row justify-between items-center">
         <TouchableHighlight
@@ -146,7 +169,16 @@ const CartList = ({ navigation }) => {
                         </Text>
                       </View>
                       <View className="absolute bottom-4 items-center w-full ml-4">
-                        <TouchableOpacity className="w-[90%] bg-red-600 py-3 rounded-full flex-row justify-around">
+                        <TouchableOpacity className="w-[90%] bg-red-600 py-3 rounded-full flex-row justify-around"
+                        onPress={() => {
+                          if(isLogin != null && isLogin == "true"){
+                            Alert.alert("Thanh toán thành công");
+                            resetCart();
+                          }else {
+                            Alert.alert("Đăng nhập để thanh toán");
+                          }
+                        }}
+                        >
                           <Text className="font-bold text-white text-xl">
                             Thanh Toán
                           </Text>

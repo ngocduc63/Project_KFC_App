@@ -11,13 +11,12 @@ const ItemCart = (props) => {
     try {
       let cart = await AsyncStorage.getItem("cartData");
       cart = cart ? JSON.parse(cart) : [];
-  
-      const updatedCart = cart.filter(item => item.name !== data.name);
-  
+
+      const updatedCart = cart.filter((item) => item.name !== data.name);
+
       await AsyncStorage.setItem("cartData", JSON.stringify(updatedCart));
-  
+
       Alert.alert(`Đã xóa ${data.name} khỏi giỏ hàng`);
-      
     } catch (e) {
       console.log("Lỗi xóa khỏi giỏ hàng: " + e.message);
     }
@@ -81,14 +80,12 @@ const ItemCart = (props) => {
             >
               <Text className="font-bold underline">Chỉnh Sửa</Text>
             </TouchableOpacity>
-            <TouchableOpacity  
+            <TouchableOpacity
               onPress={() => {
                 removeFromCart(data);
                 navigation.reset({
                   index: 0,
-                  routes: [
-                    { name: "CartList", params: { data: "ok" } },
-                  ],
+                  routes: [{ name: "CartList", params: { data: "ok" } }],
                 });
               }}
             >
@@ -101,9 +98,20 @@ const ItemCart = (props) => {
         <View className="flex-row items-center gap-x-3 ml-1">
           <TouchableOpacity
             className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
-          //   onPress={() => {
-          //     if (quantity - 1 >= 1) SetQuantity(quantity - 1);
-          //   }}
+            //   onPress={() => {
+            //     if (quantity - 1 >= 1) SetQuantity(quantity - 1);
+            //   }}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [
+                  {
+                    name: "ItemDetail",
+                    params: { data: data, isCart: true },
+                  },
+                ],
+              });
+            }}
           >
             <AntDesign name="minus" size={20} color="black" />
           </TouchableOpacity>
@@ -111,6 +119,17 @@ const ItemCart = (props) => {
           <TouchableOpacity
             className="h-8 w-8 items-center justify-center border border-black border-solid rounded-full"
             //onPress={() => SetQuantity(quantity + 1)}
+            onPress={() => {
+              navigation.reset({
+                index: 0,
+                routes: [
+                  {
+                    name: "ItemDetail",
+                    params: { data: data, isCart: true },
+                  },
+                ],
+              });
+            }}
           >
             <AntDesign name="plus" size={20} color="black" />
           </TouchableOpacity>

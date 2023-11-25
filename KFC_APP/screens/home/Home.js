@@ -293,7 +293,7 @@ const Home = ({ navigation }) => {
                       {item.description}
                     </Text>
                     <TouchableOpacity
-                      className="bg-gray-300 mt-6 w-full items-center py-[10px] rounded-full"
+                      className="bg-red-600 mt-6 w-full items-center py-[10px] rounded-full"
                       onPress={() => {
                         setCartData(item);
                       }}
