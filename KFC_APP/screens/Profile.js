@@ -296,7 +296,7 @@ const Profile = ({ navigation }) => {
                 style={{ width: "100%", height: "100%" }}
               />
             </View>
-            {isLogin && (
+            {isLogin === "true" && (
               <View className="h-30 w-[70%] ml-5">
                 <Text className="text-white font-bold text-2xl pr-3">
                   XIN CHÀO, {nameData}
@@ -318,7 +318,7 @@ const Profile = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
             )}
-            {(!isLogin || isLogin == null) && (
+            {isLogin == "false" && (
               <View className="h-30 w-[70%] ml-5">
                 <Text className="text-white font-bold text-2xl pr-3">
                   Vui Lòng Đăng Nhập!

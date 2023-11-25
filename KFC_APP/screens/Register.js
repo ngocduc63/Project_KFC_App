@@ -42,7 +42,7 @@ const Register = ({ navigation }) => {
     try {
       await AsyncStorage.setItem("userName", userName);
       await AsyncStorage.setItem("passWord", passWord);
-      await AsyncStorage.setItem("name", name);
+      await AsyncStorage.setItem("name", name ? name : "");
 
       Alert.alert("Đăng kí thành công");
     } catch (e) {
