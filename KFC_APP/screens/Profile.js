@@ -45,7 +45,7 @@ const FirstRoute = ({ navigation, data }) => (
   <View className="">
     <View className="mt-3 mx-2">
       {data.cartList == null && (
-        <View className="bg-white mx-5 rounded-lg mt-1 px-5 mb-80">
+        <View className="bg-white mx-5 rounded-lg mt-1 px-5 h-[350px]">
           <Text className="text-3xl font-bold pt-5">Bắt Đầu Đặt Món!</Text>
           <TouchableOpacity
             className="mt-3 bg-red-600 w-2/3 justify-center items-center py-3 rounded-full"
