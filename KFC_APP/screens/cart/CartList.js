@@ -49,14 +49,14 @@ const CartList = ({ navigation }) => {
       if(checkCart){
         for(const item of cartUserCopy) {
           if(item.userName == userName) {
-            item.cartData.unshift(listCart);
+            item.cartData.unshift(...listCart);
           }
         }
       }
       else {
         const data = {
           'userName': userName,
-          'cartData' : [listCart],
+          'cartData' : listCart,
         }
 
         cartUserCopy.push(data);

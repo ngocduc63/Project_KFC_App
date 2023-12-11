@@ -69,29 +69,29 @@ const FirstRoute = ({ navigation, data }) => (
               <View className="flex-row w-full">
                 <View className="h-28 w-1/3 mx-3 ">
                   <Image
-                    source={{ uri: cart[0].image }}
+                    source={{ uri: cart.image }}
                     style={{ width: "100%", height: "100%" }}
                     resizeMode="contain"
                   />
                 </View>
                 <View className="mt-3 w-[60%] relative">
                   <Text className="font-semibold text-base">
-                    {cart[0].name}
+                    {cart.name}
                   </Text>
                   <View className="h-24 mt-3">
-                    <Text>{cart[0].description}</Text>
+                    <Text>{cart.description}</Text>
                   </View>
                 </View>
               </View>
               <Text className="text-xl font-semibold ml-5 -mt-2">
-                  Số lượng: {cart[0].quantity}
+                  Số lượng: {cart.quantity}
                 </Text>
               <View className="py-2">
                 
                 <View className="items-end mr-3 -mt-8">
                   <Text className="text-xl font-semibold">
                     {parseInt(
-                      cart[0].price * cart[0].quantity,
+                      cart.price * cart.quantity,
                       10
                     ).toLocaleString("vi-VN", {
                       style: "currency",
@@ -368,6 +368,7 @@ const Profile = ({ navigation }) => {
           break;
         }
       }
+      
     } catch (e) {
       console.log("Lỗi load data local: " + e.message);
     }
