@@ -34,10 +34,40 @@ const CartList = ({ navigation }) => {
 
   const resetCart = async  () =>{
     try {
+      const userName = await AsyncStorage.getItem("userName");
+      const cartDataUser = await AsyncStorage.getItem("cartUser");
+      const cartUser = JSON.parse(cartDataUser || "[]");
+      let cartUserCopy = [...cartUser];
+      let checkCart = false;
+
+      for(const item of cartUserCopy) {
+        if(item.userName == userName) {
+          checkCart = true;
+        }
+      }
+
+      if(checkCart){
+        for(const item of cartUserCopy) {
+          if(item.userName == userName) {
+            item.cartData.unshift(listCart);
+          }
+        }
+      }
+      else {
+        const data = {
+          'userName': userName,
+          'cartData' : [listCart],
+        }
+
+        cartUserCopy.push(data);
+      }
+
+      await AsyncStorage.setItem("cartUser", JSON.stringify(cartUserCopy));
+
       await AsyncStorage.setItem("cartData", JSON.stringify([]));
 
     } catch (e) {
-      console.log("Lỗi lưu data local: ");
+      console.log("Lỗi reset cart: " + e);
     }
   }
 
