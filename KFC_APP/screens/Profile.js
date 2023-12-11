@@ -18,7 +18,6 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-import ItemCart from "../components/cart/ItemCart";
 
 const YourComponent = () => {
   useEffect(() => {
