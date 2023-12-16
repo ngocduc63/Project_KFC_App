@@ -156,7 +156,7 @@ const SecondRoute = ({ navigation, data }) => (
           </View>
         </View>
         <View>
-          <Text className="text-xl font-bold text-left">Đia chỉ của bạn</Text>
+          <Text className="text-xl font-bold text-left">Địa chỉ của bạn</Text>
           <View className="w-full border-b-[1px] border-zinc-500 h-8 rounded-xl justify-center items-center pl-3">
             <TextInput
               style={{ width: "100%", fontSize: 20, color: "black" }}
