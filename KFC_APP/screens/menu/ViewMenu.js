@@ -47,17 +47,17 @@ const ViewMenu = ({ navigation }) => {
       image:
         "https://static.kfcvietnam.com.vn/images/category/lg/MON%20MOI.jpg?v=mLKQng",
       data: [
-        {
-          id: 1,
-          name: "1 Gà Que Kem Xốt Cajun",
-          image:
-            "https://static.kfcvietnam.com.vn/images/items/lg/1-Cajun.jpg?v=LK8no4",
-          newPrice: 40000,
-          price: 97000,
-          quantity: 1,
-          description: "1 Gà Que Kem Xốt Cajun",
-          timeSell: "*Chỉ áp dụng từ 17:00 - 20:00",
-        },
+        // {
+        //   id: 1,
+        //   name: "1 Gà Que Kem Xốt Cajun",
+        //   image:
+        //     "https://static.kfcvietnam.com.vn/images/items/lg/1-Cajun.jpg?v=LK8no4",
+        //   newPrice: 97000,
+        //   price: 40000,
+        //   quantity: 1,
+        //   description: "1 Gà Que Kem Xốt Cajun",
+        //   timeSell: "*Chỉ áp dụng từ 17:00 - 20:00",
+        // },
         {
           id: 2,
           name: "2 Gà Que Kem Xốt Cajun",

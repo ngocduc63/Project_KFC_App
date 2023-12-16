@@ -76,7 +76,7 @@ const CartList = ({ navigation }) => {
       const cartDataStringTest = await AsyncStorage.getItem("cartData");
       const cartDataString = await AsyncStorage.getItem("cartData");
       const cartData = JSON.parse(cartDataString || "[]");
-      SetListCart(cartData);
+      SetListCart(cartData.reverse());
     } catch (e) {
       console.log("Lỗi lưu data local: ");
     }

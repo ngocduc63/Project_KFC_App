@@ -119,10 +119,10 @@ const SecondRoute = ({ navigation, data }) => (
             <TextInput
               style={{ width: "100%", fontSize: 20 }}
               keyboardType="default"
-              placeholder="Nhập họ tên của bạn"
+              placeholder={data.name}
               selectionColor={"red"}
               autoCapitalize="none"
-              value={data.name}
+              //value={data.name}
               onChangeText={(value) => data.setNameInput(value)}
             />
           </View>
@@ -133,11 +133,11 @@ const SecondRoute = ({ navigation, data }) => (
             <TextInput
               style={{ width: "100%", fontSize: 20 }}
               keyboardType="number-pad"
-              placeholder="Nhập số điện thoại"
+              placeholder={data.phone}
               selectionColor={"red"}
               autoCapitalize="none"
               onChangeText={(value) => data.setPhoneInput(value)}
-              value={data.phone}
+              //value={data.phone}
             />
           </View>
         </View>
@@ -147,10 +147,10 @@ const SecondRoute = ({ navigation, data }) => (
             <TextInput
               style={{ width: "100%", fontSize: 20, color: "black" }}
               keyboardType="email-address"
-              placeholder="Nhập email của bạn"
+              placeholder={data.userName}
               selectionColor={"red"}
               autoCapitalize="none"
-              value={data.userName}
+              //value={data.userName}
               editable={false}
             />
           </View>
@@ -161,10 +161,10 @@ const SecondRoute = ({ navigation, data }) => (
             <TextInput
               style={{ width: "100%", fontSize: 20, color: "black" }}
               keyboardType="email-address"
-              placeholder="Nhập email của bạn"
+              placeholder={data.address}
               selectionColor={"red"}
               autoCapitalize="none"
-              value={data.address}
+              // value={data.address}
               editable={false}
             />
           </View>
